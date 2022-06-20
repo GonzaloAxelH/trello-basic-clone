@@ -28,6 +28,21 @@ const EntryList: FC<Props> = ({ status }) => {
     endDragging();
   };
 
+  const ScrollStyles = {
+    "&::-webkit-scrollbar": {
+      width: 10,
+    },
+    "&::-webkit-scrollbar-track": {
+      backgroundImage:
+        "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))",
+      borderRadius: 2,
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#000",
+      borderRadius: 2,
+    },
+  };
+
   return (
     <div onDragOver={allowDrop} onDrop={onDropEntry}>
       <Paper
@@ -36,18 +51,7 @@ const EntryList: FC<Props> = ({ status }) => {
           backgroundColor: "transparent",
           overflowY: "auto",
           padding: "3px 10px",
-          "&::-webkit-scrollbar": {
-            width: 10,
-          },
-          "&::-webkit-scrollbar-track": {
-            backgroundImage:
-              "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))",
-            borderRadius: 2,
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#000",
-            borderRadius: 2,
-          },
+          ScrollStyles,
         }}
       >
         <List sx={{ opacity: isDragging ? 0.5 : 1, transition: "all 0.3s" }}>
