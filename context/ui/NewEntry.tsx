@@ -1,21 +1,26 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useContext, useState } from "react";
 import SaveAltOutlinedIcon from "@mui/icons-material/SaveAltOutlined";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
+import { EntriesContext } from "../entries";
+import { UIContext } from "./UIContex";
 
 const NewEntry: FC = () => {
-  const [isAdding, setisAdding] = useState(false);
   const [inputValue, setinputValue] = useState("");
   const [touched, settouched] = useState(false);
-
+  const { addNewEntry } = useContext(EntriesContext);
+  const { isAddingEntry, setIsAddingEntry } = useContext(UIContext);
   const onTextFieldChanges = (e: ChangeEvent<HTMLInputElement>) => {
     setinputValue(e.target.value);
   };
 
   const onSave = () => {
     if (inputValue.length === 0) return;
-    console.log(inputValue);
+    addNewEntry(inputValue);
+    setinputValue("");
+    setIsAddingEntry(false);
+    settouched(false);
   };
   return (
     <Box sx={{ marginBottom: 2, paddingX: 2 }}>
@@ -23,13 +28,13 @@ const NewEntry: FC = () => {
         variant="outlined"
         fullWidth
         startIcon={<AddCircleOutlineOutlinedIcon />}
-        onClick={() => setisAdding(true)}
+        onClick={() => setIsAddingEntry(true)}
       >
         Agregar Tarea
       </Button>
       <Box
         sx={{
-          maxHeight: isAdding ? "160px" : 0,
+          maxHeight: isAddingEntry ? "160px" : 0,
           overflow: "hidden",
           transition: "0.3s all",
         }}
@@ -55,7 +60,7 @@ const NewEntry: FC = () => {
           <Button
             variant="outlined"
             onClick={() => {
-              setisAdding(false);
+              setIsAddingEntry(false);
               settouched(false);
             }}
           >
